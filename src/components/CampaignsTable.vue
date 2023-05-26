@@ -1,7 +1,8 @@
 <template>
   <div>
     <h2>Campaigns:</h2>
-    <table class="campaigns-table">
+
+    <table class="campaigns-table" e>
       <thead>
         <tr>
           <th>Name</th>
@@ -11,11 +12,22 @@
           <th>Start Date</th>
           <th>End Date</th>
           <th>Budget</th>
-          <th></th>
         </tr>
       </thead>
+
       <tbody>
-        <tr v-for="campaign in campaigns" :key="campaign.id">
+        <tr v-if="isLoading">
+          <td colspan="7">
+            <div class="loader">
+              <spring-spinner
+                :animation-duration="3000"
+                :size="100"
+                color="#000000"
+              />
+            </div>
+          </td>
+        </tr>
+        <tr v-for="campaign in campaigns" :key="campaign.id" v-else>
           <td>{{ campaign.name }}</td>
           <td>{{ campaign.type }}</td>
           <td>
@@ -50,8 +62,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { Campaign, ApiClient } from "../api-client";
+import { SpringSpinner } from "epic-spinners";
 
 const campaigns = ref<Campaign[]>([]);
+const isLoading = ref(true);
 
 onMounted(async () => {
   const apiClient = new ApiClient();
@@ -60,6 +74,8 @@ onMounted(async () => {
     campaigns.value = await apiClient.requestCampaigns();
   } catch (error) {
     console.error("Error fetching data:", error);
+  } finally {
+    isLoading.value = false;
   }
 });
 

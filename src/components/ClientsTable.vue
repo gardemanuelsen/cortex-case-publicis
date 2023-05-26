@@ -1,6 +1,7 @@
 <template>
   <div>
     <h2>Clients:</h2>
+
     <table class="clients-table">
       <thead>
         <tr>
@@ -8,8 +9,20 @@
           <th>Default Campaign Manager</th>
         </tr>
       </thead>
+
       <tbody>
-        <tr v-for="client in clients" :key="client.id">
+        <tr v-if="isLoading">
+          <td colspan="7">
+            <div class="loader">
+              <spring-spinner
+                :animation-duration="3000"
+                :size="100"
+                color="#000000"
+              />
+            </div>
+          </td>
+        </tr>
+        <tr v-for="client in clients" :key="client.id" v-else>
           <td>
             <div class="table-data">
               <img class="client-logo" :src="`${client.clientLogo}`" />
@@ -35,8 +48,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { Client, ApiClient } from "../api-client";
+import { SpringSpinner } from "epic-spinners";
 
 const clients = ref<Client[]>([]);
+const isLoading = ref(true);
 
 onMounted(async () => {
   const apiClient = new ApiClient();
@@ -45,6 +60,8 @@ onMounted(async () => {
     clients.value = await apiClient.requestClients();
   } catch (error) {
     console.error("Error fetching data:", error);
+  } finally {
+    isLoading.value = false;
   }
 });
 </script>

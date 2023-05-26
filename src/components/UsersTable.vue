@@ -8,8 +8,20 @@
           <th>Email</th>
         </tr>
       </thead>
+
       <tbody>
-        <tr v-for="user in users" :key="user.id">
+        <tr v-if="isLoading">
+          <td colspan="7">
+            <div class="loader">
+              <spring-spinner
+                :animation-duration="3000"
+                :size="100"
+                color="#000000"
+              />
+            </div>
+          </td>
+        </tr>
+        <tr v-for="user in users" :key="user.id" v-else>
           <td class="table-data">
             <img class="profile-pic" :src="`${user.profilePicture}`" />{{
               user.name
@@ -25,8 +37,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { User, ApiClient } from "../api-client";
+import { SpringSpinner } from "epic-spinners";
 
 const users = ref<User[]>([]);
+const isLoading = ref(true);
 
 onMounted(async () => {
   const apiClient = new ApiClient();
@@ -35,6 +49,8 @@ onMounted(async () => {
     users.value = await apiClient.requestUsers();
   } catch (error) {
     console.error("Error fetching data:", error);
+  } finally {
+    isLoading.value = false;
   }
 });
 </script>

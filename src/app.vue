@@ -1,6 +1,7 @@
 <template>
   <div class="app">
     <Menu />
+
     <div class="content"><router-view /></div>
   </div>
 </template>
@@ -41,6 +42,12 @@ body {
 .content {
   flex: 1;
   padding: 2rem;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /** Global styling on tables */
