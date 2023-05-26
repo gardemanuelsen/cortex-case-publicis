@@ -18,10 +18,23 @@
         <tr v-for="campaign in campaigns" :key="campaign.id">
           <td>{{ campaign.name }}</td>
           <td>{{ campaign.type }}</td>
-          <td>{{ campaign.client.name }}</td>
           <td>
-            <input v-model="campaign.campaignManager.name" />
+            <div class="table-data">
+              <img class="client-logo" :src="`${campaign.client.clientLogo}`" />
+              {{ campaign.client.name }}
+            </div>
           </td>
+
+          <td>
+            <div class="table-data">
+              <img
+                class="profile-pic"
+                :src="`${campaign.campaignManager.profilePicture}`"
+              />
+              <input v-model="campaign.campaignManager.name" />
+            </div>
+          </td>
+
           <td>{{ campaign.startDate }}</td>
           <td>{{ campaign.endDate }}</td>
           <td>{{ campaign.budget }}</td>

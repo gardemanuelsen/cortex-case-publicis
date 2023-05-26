@@ -42,4 +42,26 @@ body {
   flex: 1;
   padding: 2rem;
 }
+
+/** Global styling on tables */
+
+.table-data {
+  display: flex;
+  align-items: center;
+}
+
+.profile-pic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.client-logo {
+  width: 40px;
+  height: 40px;
+  padding: 3px;
+
+  margin-right: 10px;
+}
 </style>

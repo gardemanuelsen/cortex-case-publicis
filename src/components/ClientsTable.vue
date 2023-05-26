@@ -4,16 +4,28 @@
     <table class="clients-table">
       <thead>
         <tr>
-         
           <th>Name</th>
           <th>Default Campaign Manager</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="client in clients" :key="client.id">
-   
-          <td>{{ client.name }}</td>
-          <td>{{ client.defaultCampaignManager.name }}</td>
+          <td>
+            <div class="table-data">
+              <img class="client-logo" :src="`${client.clientLogo}`" />
+
+              <span>{{ client.name }}</span>
+            </div>
+          </td>
+
+          <td>
+            <div class="table-data">
+              <img
+                class="profile-pic"
+                :src="`${client.defaultCampaignManager.profilePicture}`"
+              />{{ client.defaultCampaignManager.name }}
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>

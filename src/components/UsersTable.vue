@@ -10,7 +10,11 @@
       </thead>
       <tbody>
         <tr v-for="user in users" :key="user.id">
-          <td>{{ user.name }}</td>
+          <td class="table-data">
+            <img class="profile-pic" :src="`${user.profilePicture}`" />{{
+              user.name
+            }}
+          </td>
           <td>{{ user.email }}</td>
         </tr>
       </tbody>

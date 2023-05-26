@@ -12,8 +12,21 @@ enum CampaignType {
    */
   TV,
 }
+interface ProfilePicture {
+  /**
+   * Path to the profile picture
+   */
+  profilePicture: string;
+}
 
-interface Client {
+interface ClientPicture {
+  /**
+   * Path to the client logo
+   */
+  clientLogo: string;
+}
+
+interface Client extends ClientPicture {
   /**
    * Unique ID
    */
@@ -28,7 +41,7 @@ interface Client {
   defaultCampaignManager: User;
 }
 
-interface User {
+interface User extends ProfilePicture {
   /**
    * Unique ID
    */
@@ -46,6 +59,10 @@ interface User {
    * (password hashing is not part of this case for the sake of simplicity, and is normally not handled by frontend code anyway)
    */
   password: string;
+  /**
+   * Added some stock photos for the sake of this case
+   */
+  profilePicture: string;
 }
 
 interface Campaign {
@@ -99,54 +116,63 @@ class ApiClient {
         name: "Davina Gwendoline",
         email: "davina.gwendoline@publicisgroupe.com",
         password: "bfsbw53",
+        profilePicture: "../img/profilepics/Davina.png",
       },
       {
         id: 2,
         name: "Jaylah Suz",
         email: "jaylah.suz@publicisgroupe.com",
         password: "th3tg3ht3",
+        profilePicture: "../img/profilepics/Jaylah.png",
       },
       {
         id: 3,
         name: "Margie Jeremiah",
         email: "margie.jeremiah@publicisgroupe.com",
         password: "8jnjnvqaa5",
+        profilePicture: "../img/profilepics/Margie.png",
       },
       {
         id: 4,
         name: "Lenard Nita",
         email: "lenard.nita@publicisgroupe.com",
         password: "6t4n64h75j43",
+        profilePicture: "../img/profilepics/Lenard Nita.png",
       },
       {
         id: 5,
         name: "Leann Adamina",
         email: "leann.adamina@publicisgroupe.com",
         password: "asa533g3",
+        profilePicture: "../img/profilepics/Leann.png",
       },
       {
         id: 6,
         name: "Abilene Bevis",
         email: "abilene.bevis@publicisgroupe.com",
         password: "l66kj5ggcxz",
+        profilePicture: "../img/profilepics/Abilene.png",
       },
       {
         id: 7,
         name: "Evonne Isadora",
         email: "evonne.isadora@publicisgroupe.com",
         password: "vdava3fe2",
+        profilePicture: "../img/profilepics/Evonne.png",
       },
       {
         id: 8,
         name: "Madeleine Anson",
         email: "madeleine.anson@publicisgroupe.com",
         password: "hnjnmszzsr43ww",
+        profilePicture: "../img/profilepics/Madeleine.png",
       },
       {
         id: 9,
         name: "Jennifer Christy",
         email: "jennifer.christy@publicisgroupe.com",
         password: "53b4ehrwb35",
+        profilePicture: "../img/profilepics/Jennifer.png",
       },
     ];
 
@@ -154,76 +180,91 @@ class ApiClient {
       id: 1,
       name: "Apple",
       defaultCampaignManager: this.users[0],
+      clientLogo: "../img/logos/Apple.png",
     };
     const amazon: Client = {
       id: 2,
       name: "Amazon",
       defaultCampaignManager: this.users[2],
+      clientLogo: "../img/logos/Amazon.png",
     };
     const microsoft: Client = {
       id: 3,
       name: "Microsoft",
       defaultCampaignManager: this.users[5],
+      clientLogo: "../img/logos/Microsoft.png",
     };
     const google: Client = {
       id: 4,
       name: "Google",
       defaultCampaignManager: this.users[1],
+      clientLogo: "../img/logos/Google.png",
     };
     const samsung: Client = {
       id: 5,
       name: "Samsung",
       defaultCampaignManager: this.users[4],
+      clientLogo: "../img/logos/Samsung.png",
     };
     const cocaCola: Client = {
       id: 6,
       name: "Coca-Cola",
       defaultCampaignManager: this.users[6],
+      clientLogo: "../img/logos/Cola.png",
     };
     const toyota: Client = {
       id: 7,
       name: "Toyota",
       defaultCampaignManager: this.users[7],
+      clientLogo: "../img/logos/Toyota.png",
     };
     const mercedesBenz: Client = {
       id: 8,
       name: "Mercedes-Benz",
       defaultCampaignManager: this.users[6],
+      clientLogo: "../img/logos/Mercedes.png",
     };
     const mcDonalds: Client = {
       id: 9,
       name: "McDonald’s",
       defaultCampaignManager: this.users[2],
+      clientLogo: "../img/logos/McDonalds.png",
     };
     const disney: Client = {
       id: 10,
       name: "Disney",
       defaultCampaignManager: this.users[3],
+      clientLogo: "../img/logos/Disney.png",
     };
     const bmw: Client = {
       id: 11,
       name: "BMW",
       defaultCampaignManager: this.users[4],
+      clientLogo: "../img/logos/BMW.png",
     };
     const intel: Client = {
       id: 12,
       name: "Intel",
       defaultCampaignManager: this.users[3],
+      clientLogo: "../img/logos/Intel.png",
     };
     const facebook: Client = {
       id: 13,
       name: "Facebook",
       defaultCampaignManager: this.users[8],
+      clientLogo: "../img/logos/Facebook.png",
     };
     const nike: Client = {
       id: 14,
       name: "NIKE",
       defaultCampaignManager: this.users[4],
+      clientLogo: "../img/logos/NIKE.png",
     };
     const americanExpress: Client = {
       id: 15,
       name: "American Express",
       defaultCampaignManager: this.users[1],
+      clientLogo: "../img/logos/American.png",
     };
 
     this.clients = [
