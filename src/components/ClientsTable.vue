@@ -1,0 +1,57 @@
+<template>
+  <div>
+    <h2>Clients:</h2>
+    <table class="clients-table">
+      <thead>
+        <tr>
+         
+          <th>Name</th>
+          <th>Default Campaign Manager</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="client in clients" :key="client.id">
+   
+          <td>{{ client.name }}</td>
+          <td>{{ client.defaultCampaignManager.name }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, onMounted } from "vue";
+import { Client, ApiClient } from "../api-client";
+
+const clients = ref<Client[]>([]);
+
+onMounted(async () => {
+  const apiClient = new ApiClient();
+
+  try {
+    clients.value = await apiClient.requestClients();
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+});
+</script>
+
+<style scoped>
+.clients-table {
+  border-collapse: collapse;
+  width: 100%;
+  background-color: #ffffff;
+}
+
+.clients-table th,
+.clients-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.clients-table th {
+  background-color: #f2f2f2;
+}
+</style>
