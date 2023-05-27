@@ -26,13 +26,16 @@
           @input="performSearch"
         />
       </div>
+
       <div>
-        <label for="dropdown">Status</label>
-        <select id="dropdown" v-model="selectedOption">
-          <option value="">Finished</option>
-          <option value="option2">3 months</option>
-          <option value="option3">6 months</option>
-          <option value="option3">12 months +</option>
+        <label for="statusDropdown">Status</label>
+        <select id="statusDropdown" v-model="statusDropdownValue">
+          <option value="all">All</option>
+          <option value="finished">Finished</option>
+          <option value="inProgress">In Progress</option>
+          <option value="3">3 Months</option>
+          <option value="6">6 Months</option>
+          <option value="12+">12+ Months</option>
         </select>
       </div>
     </div>
@@ -139,13 +142,14 @@ import { ref, onMounted, computed } from "vue";
 import { Campaign, ApiClient } from "../api-client";
 import { SpringSpinner } from "epic-spinners";
 import { sortItems } from "@/utils/sorting";
-import { searchedCampaigns } from "@/utils/searching";
+import { filteredCampaigns } from "@/utils/filtering";
 
 const campaigns = ref<Campaign[]>([]);
 const isLoading = ref(true);
 
 //Filtering
-const selectedOption = ref("");
+
+const statusDropdownValue = ref("");
 const searchClientQuery = ref("");
 const searchNameQuery = ref("");
 const searchManagerQuery = ref("");
@@ -154,13 +158,15 @@ const searchManagerQuery = ref("");
 const sortColumn = ref("");
 const sortDirection = ref(1);
 
+//Computed values that gets changed when filtering or sorting
 const sortedCampaigns = computed(() => {
   return sortItems(
-    searchedCampaigns(
+    filteredCampaigns(
       campaigns.value,
       searchClientQuery.value,
       searchNameQuery.value,
-      searchManagerQuery.value
+      searchManagerQuery.value,
+      statusDropdownValue.value
     ),
     sortColumn.value,
     sortDirection.value
@@ -183,6 +189,7 @@ onMounted(async () => {
     campaigns.value = await apiClient.requestCampaigns();
     sortColumn.value = "name";
     sortDirection.value = 1;
+    statusDropdownValue.value = "all";
   } catch (error) {
     console.error("Error fetching data:", error);
   } finally {
