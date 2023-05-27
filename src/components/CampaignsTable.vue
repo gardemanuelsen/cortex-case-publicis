@@ -1,7 +1,41 @@
 <template>
   <div>
     <h2>Campaigns:</h2>
+    <div class="filtering-container">
+      <div>
+        <label for="name-input">Search by Name:</label>
+        <input
+          type="text"
+          id="name-input"
+          v-model="searchNameQuery"
+          @input="performSearch"
+        />
 
+        <label for="manager-input">Search by Campaign Manager:</label>
+        <input
+          type="text"
+          id="manager-input"
+          v-model="searchManagerQuery"
+          @input="performSearch"
+        />
+        <label for="search-input">Search Client:</label>
+        <input
+          type="text"
+          id="search-input"
+          v-model="searchClientQuery"
+          @input="performSearch"
+        />
+      </div>
+      <div>
+        <label for="dropdown">Status</label>
+        <select id="dropdown" v-model="selectedOption">
+          <option value="">Finished</option>
+          <option value="option2">3 months</option>
+          <option value="option3">6 months</option>
+          <option value="option3">12 months +</option>
+        </select>
+      </div>
+    </div>
     <table class="campaigns-table" e>
       <thead>
         <tr>
@@ -105,14 +139,32 @@ import { ref, onMounted, computed } from "vue";
 import { Campaign, ApiClient } from "../api-client";
 import { SpringSpinner } from "epic-spinners";
 import { sortItems } from "@/utils/sorting";
+import { searchedCampaigns } from "@/utils/searching";
 
 const campaigns = ref<Campaign[]>([]);
 const isLoading = ref(true);
 
+//Filtering
+const selectedOption = ref("");
+const searchClientQuery = ref("");
+const searchNameQuery = ref("");
+const searchManagerQuery = ref("");
+
+//Sorting
 const sortColumn = ref("");
 const sortDirection = ref(1);
+
 const sortedCampaigns = computed(() => {
-  return sortItems(campaigns.value, sortColumn.value, sortDirection.value);
+  return sortItems(
+    searchedCampaigns(
+      campaigns.value,
+      searchClientQuery.value,
+      searchNameQuery.value,
+      searchManagerQuery.value
+    ),
+    sortColumn.value,
+    sortDirection.value
+  );
 });
 
 const toggleSort = (column: string) => {
@@ -138,6 +190,17 @@ onMounted(async () => {
   }
 });
 
+const performSearch = (event: Event, column: string) => {
+  const value = (event.target as HTMLInputElement).value.toLowerCase();
+
+  if (column === "name") {
+    searchNameQuery.value = value;
+  } else if (column === "campaignManager") {
+    searchManagerQuery.value = value;
+  } else if (column === "client") {
+    searchClientQuery.value = value;
+  }
+};
 const saveCampaign = (campaign) => {
   // Handle saving the campaign data
   console.log("Saving campaign:", campaign);
@@ -160,5 +223,11 @@ const saveCampaign = (campaign) => {
 
 .campaigns-table th {
   background-color: #f2f2f2;
+}
+
+.filtering-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 </style>
