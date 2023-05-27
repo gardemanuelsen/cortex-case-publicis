@@ -107,7 +107,7 @@ class ApiClient {
   private readonly campaigns: Campaign[];
   private readonly clients: Client[];
   private readonly users: User[];
-  private readonly simulatedRequestTime = 2500;
+  private readonly simulatedRequestTime = 100;
 
   constructor() {
     this.users = [

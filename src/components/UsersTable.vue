@@ -4,7 +4,12 @@
     <table class="users-table">
       <thead>
         <tr>
-          <th>Name</th>
+          <th>
+            <span>Name</span>
+            <button @click="toggleSort('name')" class="sort-button">
+              {{ sortColumn === "name" && sortDirection === 2 ? "▲" : "▼" }}
+            </button>
+          </th>
           <th>Email</th>
         </tr>
       </thead>
@@ -14,14 +19,14 @@
           <td colspan="7">
             <div class="loader">
               <spring-spinner
-                :animation-duration="3000"
+                :animation-duration="2000"
                 :size="100"
                 color="#000000"
               />
             </div>
           </td>
         </tr>
-        <tr v-for="user in users" :key="user.id" v-else>
+        <tr v-for="user in sortedUsers" :key="user.id" v-else>
           <td class="table-data">
             <img class="profile-pic" :src="`${user.profilePicture}`" />{{
               user.name
@@ -35,18 +40,36 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { User, ApiClient } from "../api-client";
 import { SpringSpinner } from "epic-spinners";
+import { sortItems } from "../utils/sorting";
 
 const users = ref<User[]>([]);
 const isLoading = ref(true);
+
+const sortColumn = ref("");
+const sortDirection = ref(1);
+const sortedUsers = computed(() => {
+  return sortItems(users.value, sortColumn.value, sortDirection.value);
+});
+
+const toggleSort = (column: string) => {
+  if (sortColumn.value === column) {
+    sortDirection.value = sortDirection.value === 1 ? 2 : 1;
+  } else {
+    sortColumn.value = column;
+    sortDirection.value = 1;
+  }
+};
 
 onMounted(async () => {
   const apiClient = new ApiClient();
 
   try {
     users.value = await apiClient.requestUsers();
+    sortColumn.value = "name";
+    sortDirection.value = 1;
   } catch (error) {
     console.error("Error fetching data:", error);
   } finally {
