@@ -38,6 +38,16 @@
           <option value="12+">12+ Months</option>
         </select>
       </div>
+
+      <div>
+        <label for="typeDropdown">Campaign type</label>
+        <select id="typeDropdown" v-model="typeDropdownValue">
+          <option value="all">All</option>
+          <option value="socialMedia">Social Media</option>
+          <option value="searchEngine">Search Engine</option>
+          <option value="tv">TV</option>
+        </select>
+      </div>
     </div>
     <table class="campaigns-table" e>
       <thead>
@@ -90,6 +100,7 @@
               {{ sortColumn === "budget" && sortDirection === 2 ? "▲" : "▼" }}
             </button>
           </th>
+          <th></th>
         </tr>
       </thead>
 
@@ -121,15 +132,28 @@
                 class="profile-pic"
                 :src="`${campaign.campaignManager.profilePicture}`"
               />
-              <input v-model="campaign.campaignManager.name" />
+              {{ campaign.campaignManager.name }}
             </div>
           </td>
-
-          <td>{{ campaign.startDate }}</td>
-          <td>{{ campaign.endDate }}</td>
+          <td v-if="!campaign.isEditing">{{ campaign.startDate }}</td>
+          <td v-else>
+            <input
+              type="number"
+              v-model="campaign.newStartDate"
+              :placeholder="campaign.startDate"
+            />
+          </td>
+          <td v-if="!campaign.isEditing">{{ campaign.endDate }}</td>
+          <td v-else>
+            <input
+              type="number"
+              v-model="campaign.newEndDate"
+              :placeholder="campaign.endDate"
+            />
+          </td>
           <td>{{ campaign.budget }}</td>
           <td>
-            <button @click="saveCampaign(campaign)">Save</button>
+            <button @click="editCampaign(campaign)">Edit</button>
           </td>
         </tr>
       </tbody>
@@ -147,9 +171,11 @@ import { filteredCampaigns } from "@/utils/filtering";
 const campaigns = ref<Campaign[]>([]);
 const isLoading = ref(true);
 
-//Filtering
-
+//Filtering dropdown
+const typeDropdownValue = ref("");
 const statusDropdownValue = ref("");
+
+//Searching
 const searchClientQuery = ref("");
 const searchNameQuery = ref("");
 const searchManagerQuery = ref("");
@@ -166,7 +192,8 @@ const sortedCampaigns = computed(() => {
       searchClientQuery.value,
       searchNameQuery.value,
       searchManagerQuery.value,
-      statusDropdownValue.value
+      statusDropdownValue.value,
+      typeDropdownValue.value
     ),
     sortColumn.value,
     sortDirection.value
@@ -187,15 +214,37 @@ onMounted(async () => {
 
   try {
     campaigns.value = await apiClient.requestCampaigns();
-    sortColumn.value = "name";
-    sortDirection.value = 1;
-    statusDropdownValue.value = "all";
+    // Additional code for loading campaign data from localStorage
+    campaigns.value.forEach((campaign) => {
+      const storedData = localStorage.getItem(`campaign_${campaign.id}`);
+      if (storedData) {
+        const storedCampaign = JSON.parse(storedData);
+        campaign.startDate = storedCampaign.startDate;
+        campaign.endDate = storedCampaign.endDate;
+      }
+
+      statusDropdownValue.value = "all";
+      typeDropdownValue.value = "all";
+      campaign.isEditing = false;
+      campaign.newStartDate = campaign.startDate;
+      campaign.newEndDate = campaign.endDate;
+    });
   } catch (error) {
     console.error("Error fetching data:", error);
   } finally {
     isLoading.value = false;
   }
 });
+
+// Toggle edit mode for a campaign
+const toggleEditMode = (campaign: Campaign): void => {
+  campaign.isEditing = !campaign.isEditing;
+};
+
+// Save campaign changes
+const editCampaign = (campaign: Campaign) => {
+  toggleEditMode(campaign);
+};
 
 const performSearch = (event: Event, column: string) => {
   const value = (event.target as HTMLInputElement).value.toLowerCase();
@@ -207,10 +256,6 @@ const performSearch = (event: Event, column: string) => {
   } else if (column === "client") {
     searchClientQuery.value = value;
   }
-};
-const saveCampaign = (campaign) => {
-  // Handle saving the campaign data
-  console.log("Saving campaign:", campaign);
 };
 </script>
 

@@ -91,7 +91,9 @@ interface Campaign {
   /**
    * Start date of when advertisement will start to be displayed
    */
+
   startDate: string;
+
   /**
    * End date of when advertisement will start to be displayed
    */
@@ -101,6 +103,9 @@ interface Campaign {
    * Given in norwegian kroner (NOK)
    */
   budget: number;
+  isEditing: boolean;
+  newStartDate: string;
+  newEndDate: string;
 }
 
 class ApiClient {
@@ -295,6 +300,9 @@ class ApiClient {
         startDate: "2022-01-05",
         endDate: "2022-02-11",
         budget: 100000,
+        newStartDate: "",
+        newEndDate: "",
+        isEditing: false,
       },
       {
         id: 2,
@@ -305,6 +313,9 @@ class ApiClient {
         startDate: "2022-06-12",
         endDate: "2022-06-18",
         budget: 850000,
+        newStartDate: "",
+        newEndDate: "",
+        isEditing: false,
       },
       {
         id: 3,
@@ -315,6 +326,9 @@ class ApiClient {
         startDate: "2022-08-03",
         endDate: "2022-08-17",
         budget: 1170000,
+        newStartDate: "",
+        newEndDate: "",
+        isEditing: false,
       },
       {
         id: 4,
@@ -325,6 +339,9 @@ class ApiClient {
         startDate: "2022-01-01",
         endDate: "2023-01-01",
         budget: 90000,
+        newStartDate: "",
+        newEndDate: "",
+        isEditing: false,
       },
       {
         id: 5,
@@ -335,6 +352,9 @@ class ApiClient {
         startDate: "2023-02-04",
         endDate: "2023-04-02",
         budget: 510000,
+        newStartDate: "",
+        newEndDate: "",
+        isEditing: false,
       },
       {
         id: 6,
@@ -345,6 +365,9 @@ class ApiClient {
         startDate: "2024-06-12",
         endDate: "2024-08-20",
         budget: 110000,
+        newStartDate: "",
+        newEndDate: "",
+        isEditing: false,
       },
       {
         id: 7,
@@ -355,6 +378,9 @@ class ApiClient {
         startDate: "2024-04-10",
         endDate: "2024-08-12",
         budget: 400000,
+        newStartDate: "",
+        newEndDate: "",
+        isEditing: false,
       },
       {
         id: 8,
@@ -365,6 +391,9 @@ class ApiClient {
         startDate: "2022-01-10",
         endDate: "2022-10-12",
         budget: 850000,
+        newStartDate: "",
+        newEndDate: "",
+        isEditing: false,
       },
       {
         id: 9,
@@ -375,6 +404,9 @@ class ApiClient {
         startDate: "2022-07-10",
         endDate: "2022-07-15",
         budget: 150000,
+        newStartDate: "",
+        newEndDate: "",
+        isEditing: false,
       },
     ];
   }

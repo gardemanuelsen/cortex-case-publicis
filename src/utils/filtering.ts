@@ -5,10 +5,11 @@ export function filteredCampaigns(
   searchClientQuery: string,
   searchNameQuery: string,
   searchManagerQuery: string,
-  statusDropdownValue: string
+  statusDropdownValue: string,
+  typeDropdownValue: string
 ): Campaign[] {
   let filtered = campaigns;
-
+  console.log(typeDropdownValue);
   if (searchClientQuery) {
     const clientQuery = searchClientQuery.toLowerCase();
     filtered = filtered.filter((campaign) =>
@@ -52,6 +53,21 @@ export function filteredCampaigns(
     } else if (statusDropdownValue === "12+") {
       monthsAhead.setMonth(currentDate.getMonth() + 12);
       return startDate >= monthsAhead;
+    }
+
+    return true; // Return true for unfiltered campaigns
+  });
+
+  // Apply additional filtering based on type dropdown
+  filtered = filtered.filter((campaign) => {
+    if (typeDropdownValue === "all") {
+      return true;
+    } else if (typeDropdownValue === "socialMedia") {
+      return campaign.type === 0;
+    } else if (typeDropdownValue === "searchEngine") {
+      return campaign.type === 1;
+    } else if (typeDropdownValue === "tv") {
+      return campaign.type === 2;
     }
 
     return true; // Return true for unfiltered campaigns
