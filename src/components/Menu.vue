@@ -53,7 +53,7 @@ const loggedInUser = ref<User | null>(null); // Add this line
 const router = useRouter();
 
 const menuItems: MenuItem[] = [
-  { id: 1, title: "Campaigns", route: "/campaigns", icon: "campaign" },
+  { id: 1, title: "Campaigns", route: "/", icon: "campaign" },
   { id: 2, title: "Clients", route: "/client", icon: "client" },
   { id: 3, title: "Users", route: "/user", icon: "user" },
 ];
