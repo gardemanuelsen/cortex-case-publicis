@@ -6,7 +6,8 @@ import ClientsTable from "./components/ClientsTable.vue";
 import UsersTable from "./components/UsersTable.vue";
 
 const routes = [
-  { path: "/", component: CampaignsTable },
+  // { path: "/", component: Login },
+  { path: "/campaigns", component: CampaignsTable },
   { path: "/client", component: ClientsTable },
   { path: "/user", component: UsersTable },
 ];

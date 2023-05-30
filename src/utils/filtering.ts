@@ -9,7 +9,7 @@ export function filteredCampaigns(
   typeDropdownValue: string
 ): Campaign[] {
   let filtered = campaigns;
-  console.log(typeDropdownValue);
+
   if (searchClientQuery) {
     const clientQuery = searchClientQuery.toLowerCase();
     filtered = filtered.filter((campaign) =>

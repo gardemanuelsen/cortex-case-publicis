@@ -1,68 +1,70 @@
 <template>
+  <h1>Clients</h1>
   <div>
-    <h2>Clients:</h2>
+    <div class="scrollable-table">
+      <table class="clients-table">
+        <thead>
+          <tr>
+            <th>
+              <div class="header-container">
+                <span>Name</span>
+                <button @click="toggleSort('name')" class="sort-button">
+                  {{ sortColumn === "name" && sortDirection === 2 ? "▲" : "▼" }}
+                </button>
+              </div>
+            </th>
+            <th>
+              <div class="header-container">
+                <span>Default Campaign Manager</span>
+                <button
+                  @click="toggleSort('defaultCampaignManager')"
+                  class="sort-button"
+                >
+                  {{
+                    sortColumn === "defaultCampaignManager" &&
+                    sortDirection === 2
+                      ? "▲"
+                      : "▼"
+                  }}
+                </button>
+              </div>
+            </th>
+          </tr>
+        </thead>
 
-    <table class="clients-table">
-      <thead>
-        <tr>
-          <th>
-            <div class="header-container">
-              <span>Name</span>
-              <button @click="toggleSort('name')" class="sort-button">
-                {{ sortColumn === "name" && sortDirection === 2 ? "▲" : "▼" }}
-              </button>
-            </div>
-          </th>
-          <th>
-            <div class="header-container">
-              <span>Default Campaign Manager</span>
-              <button
-                @click="toggleSort('defaultCampaignManager')"
-                class="sort-button"
-              >
-                {{
-                  sortColumn === "defaultCampaignManager" && sortDirection === 2
-                    ? "▲"
-                    : "▼"
-                }}
-              </button>
-            </div>
-          </th>
-        </tr>
-      </thead>
+        <tbody>
+          <tr v-if="isLoading">
+            <td colspan="7">
+              <div class="loader">
+                <spring-spinner
+                  :animation-duration="2000"
+                  :size="100"
+                  color="#cc943c"
+                />
+              </div>
+            </td>
+          </tr>
+          <tr v-for="client in sortedClients" :key="client.id" v-else>
+            <td>
+              <div class="table-data">
+                <img class="client-logo" :src="`${client.clientLogo}`" />
 
-      <tbody>
-        <tr v-if="isLoading">
-          <td colspan="7">
-            <div class="loader">
-              <spring-spinner
-                :animation-duration="2000"
-                :size="100"
-                color="#000000"
-              />
-            </div>
-          </td>
-        </tr>
-        <tr v-for="client in sortedClients" :key="client.id" v-else>
-          <td>
-            <div class="table-data">
-              <img class="client-logo" :src="`${client.clientLogo}`" />
+                <span>{{ client.name }}</span>
+              </div>
+            </td>
 
-              <span>{{ client.name }}</span>
-            </div>
-          </td>
-
-          <td>
-            <div class="table-data">
-              <img
-                class="profile-pic"
-                :src="`${client.defaultCampaignManager.profilePicture}`"
-              />{{ client.defaultCampaignManager.name }}
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            <td>
+              <div class="table-data">
+                <img
+                  class="profile-pic"
+                  :src="`${client.defaultCampaignManager.profilePicture}`"
+                />{{ client.defaultCampaignManager.name }}
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -105,21 +107,4 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped>
-.clients-table {
-  border-collapse: collapse;
-  width: 100%;
-  background-color: #ffffff;
-}
-
-.clients-table th,
-.clients-table td {
-  border: 1px solid #ccc;
-  padding: 8px;
-  text-align: left;
-}
-
-.clients-table th {
-  background-color: #f2f2f2;
-}
-</style>
+<style scoped></style>
