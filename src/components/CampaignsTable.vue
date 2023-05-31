@@ -1,216 +1,226 @@
 <template>
-  <h1>Campaigns</h1>
-  <div>
-    <div class="filtering-container">
-      <div class="search-by-name-container">
-        <div>
-          <label for="name-input">Search by Name</label>
+  <div class="container">
+    <h1>Campaigns</h1>
+    <div>
+      <div class="filtering-container">
+        <div class="search-by-name-container">
+          <div>
+            <label for="name-input">Search by Name</label>
+          </div>
+          <div>
+            <input
+              type="text"
+              id="name-input"
+              v-model="searchNameQuery"
+              @input="performSearch"
+              class="search-input"
+              placeholder="&#61442; Search"
+            />
+          </div>
         </div>
-        <div>
-          <input
-            type="text"
-            id="name-input"
-            v-model="searchNameQuery"
-            @input="performSearch"
-            class="search-input"
-            placeholder="&#61442; Search"
-          />
+        <div class="search-by-campaign-manager-container">
+          <div>
+            <label for="manager-input">Campaign Manager</label>
+          </div>
+          <div>
+            <input
+              type="text"
+              id="manager-input"
+              v-model="searchManagerQuery"
+              @input="performSearch"
+              class="search-input"
+              placeholder="&#61442; Search"
+            />
+          </div>
+        </div>
+        <div class="search-by-client-container">
+          <div>
+            <label for="search-input">Client</label>
+          </div>
+          <div>
+            <input
+              type="text"
+              id="search-input"
+              v-model="searchClientQuery"
+              @input="performSearch"
+              class="search-input"
+              placeholder="&#61442; Search"
+            />
+          </div>
+        </div>
+        <div class="dropdown-by-type-container">
+          <div>
+            <label for="typeDropdown">Type</label>
+          </div>
+          <div>
+            <select id="typeDropdown" v-model="typeDropdownValue">
+              <option value="all">All</option>
+              <option value="socialMedia">Social Media</option>
+              <option value="searchEngine">Search Engine</option>
+              <option value="tv">TV</option>
+            </select>
+          </div>
+        </div>
+        <div class="dropdown-by-status-container">
+          <div>
+            <label for="statusDropdown">Status</label>
+          </div>
+          <div>
+            <select id="statusDropdown" v-model="statusDropdownValue">
+              <option value="all">All</option>
+              <option value="finished">Finished</option>
+              <option value="inProgress">In Progress</option>
+              <option value="3">3 Months</option>
+              <option value="6">6 Months</option>
+              <option value="12+">12+ Months</option>
+            </select>
+          </div>
         </div>
       </div>
-      <div class="search-by-campaign-manager-container">
-        <div>
-          <label for="manager-input">Campaign Manager</label>
-        </div>
-        <div>
-          <input
-            type="text"
-            id="manager-input"
-            v-model="searchManagerQuery"
-            @input="performSearch"
-            class="search-input"
-            placeholder="&#61442; Search"
-          />
-        </div>
-      </div>
-      <div class="search-by-client-container">
-        <div>
-          <label for="search-input">Client</label>
-        </div>
-        <div>
-          <input
-            type="text"
-            id="search-input"
-            v-model="searchClientQuery"
-            @input="performSearch"
-            class="search-input"
-            placeholder="&#61442; Search"
-          />
-        </div>
-      </div>
-      <div class="dropdown-by-type-container">
-        <div>
-          <label for="typeDropdown">Type</label>
-        </div>
-        <div>
-          <select id="typeDropdown" v-model="typeDropdownValue">
-            <option value="all">All</option>
-            <option value="socialMedia">Social Media</option>
-            <option value="searchEngine">Search Engine</option>
-            <option value="tv">TV</option>
-          </select>
-        </div>
-      </div>
-      <div class="dropdown-by-status-container">
-        <div>
-          <label for="statusDropdown">Status</label>
-        </div>
-        <div>
-          <select id="statusDropdown" v-model="statusDropdownValue">
-            <option value="all">All</option>
-            <option value="finished">Finished</option>
-            <option value="inProgress">In Progress</option>
-            <option value="3">3 Months</option>
-            <option value="6">6 Months</option>
-            <option value="12+">12+ Months</option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <div class="scrollable-campaigns-table">
-      <table>
-        <thead>
-          <tr>
-            <th>
-              <div class="header-container">
-                <span>Name</span>
-                <button @click="toggleSort('name')" class="sort-button">
-                  {{ sortColumn === "name" && sortDirection === 2 ? "▲" : "▼" }}
-                </button>
-              </div>
-            </th>
+      <div class="scrollable-campaigns-table">
+        <table>
+          <thead>
+            <tr>
+              <th>
+                <div class="header-container">
+                  <span>Name</span>
+                  <button @click="toggleSort('name')" class="sort-button">
+                    {{
+                      sortColumn === "name" && sortDirection === 2 ? "▲" : "▼"
+                    }}
+                  </button>
+                </div>
+              </th>
 
-            <th>
-              <div class="header-container">
-                <span>Client</span>
-                <button @click="toggleSort('client.name')" class="sort-button">
-                  {{
-                    sortColumn === "client.name" && sortDirection === 2
-                      ? "▲"
-                      : "▼"
-                  }}
-                </button>
-              </div>
-            </th>
-            <th>
-              <div class="header-container">
-                <span>Campaign Manager</span>
-                <button
-                  @click="toggleSort('campaignManager.name')"
-                  class="sort-button"
-                >
-                  {{
-                    sortColumn === "campaignManager.name" && sortDirection === 2
-                      ? "▲"
-                      : "▼"
-                  }}
-                </button>
-              </div>
-            </th>
-            <th>
-              <div class="header-container">
-                <span>Start Date</span>
-                <button @click="toggleSort('startDate')" class="sort-button">
-                  {{
-                    sortColumn === "startDate" && sortDirection === 2
-                      ? "▲"
-                      : "▼"
-                  }}
-                </button>
-              </div>
-            </th>
-            <th>
-              <div class="header-container">
-                <span>End Date</span>
-                <button @click="toggleSort('endDate')" class="sort-button">
-                  {{
-                    sortColumn === "endDate" && sortDirection === 2 ? "▲" : "▼"
-                  }}
-                </button>
-              </div>
-            </th>
-            <th>
-              <div class="header-container">
-                <span>Budget</span>
-                <button @click="toggleSort('budget')" class="sort-button">
-                  {{
-                    sortColumn === "budget" && sortDirection === 2 ? "▲" : "▼"
-                  }}
-                </button>
-              </div>
-            </th>
-            <th></th>
-          </tr>
-        </thead>
+              <th>
+                <div class="header-container">
+                  <span>Client</span>
+                  <button
+                    @click="toggleSort('client.name')"
+                    class="sort-button"
+                  >
+                    {{
+                      sortColumn === "client.name" && sortDirection === 2
+                        ? "▲"
+                        : "▼"
+                    }}
+                  </button>
+                </div>
+              </th>
+              <th>
+                <div class="header-container">
+                  <span>Campaign Manager</span>
+                  <button
+                    @click="toggleSort('campaignManager.name')"
+                    class="sort-button"
+                  >
+                    {{
+                      sortColumn === "campaignManager.name" &&
+                      sortDirection === 2
+                        ? "▲"
+                        : "▼"
+                    }}
+                  </button>
+                </div>
+              </th>
+              <th>
+                <div class="header-container">
+                  <span>Start Date</span>
+                  <button @click="toggleSort('startDate')" class="sort-button">
+                    {{
+                      sortColumn === "startDate" && sortDirection === 2
+                        ? "▲"
+                        : "▼"
+                    }}
+                  </button>
+                </div>
+              </th>
+              <th>
+                <div class="header-container">
+                  <span>End Date</span>
+                  <button @click="toggleSort('endDate')" class="sort-button">
+                    {{
+                      sortColumn === "endDate" && sortDirection === 2
+                        ? "▲"
+                        : "▼"
+                    }}
+                  </button>
+                </div>
+              </th>
+              <th>
+                <div class="header-container">
+                  <span>Budget</span>
+                  <button @click="toggleSort('budget')" class="sort-button">
+                    {{
+                      sortColumn === "budget" && sortDirection === 2 ? "▲" : "▼"
+                    }}
+                  </button>
+                </div>
+              </th>
+              <th></th>
+            </tr>
+          </thead>
 
-        <tbody class="table-body">
-          <tr v-if="isLoading">
-            <td colspan="7">
-              <div class="loader">
-                <spring-spinner
-                  :animation-duration="2000"
-                  :size="100"
-                  color="#cc943c"
+          <tbody class="table-body">
+            <tr v-if="isLoading">
+              <td colspan="7">
+                <div class="loader">
+                  <spring-spinner
+                    :animation-duration="2000"
+                    :size="100"
+                    color="#cc943c"
+                  />
+                </div>
+              </td>
+            </tr>
+            <tr v-for="campaign in sortedCampaigns" :key="campaign.id" v-else>
+              <td>{{ campaign.name }}</td>
+
+              <td>
+                <div class="table-data">
+                  <img
+                    class="client-logo"
+                    :src="`${campaign.client.clientLogo}`"
+                  />
+                  {{ campaign.client.name }}
+                </div>
+              </td>
+
+              <td>
+                <div class="table-data">
+                  <img
+                    class="profile-pic"
+                    :src="`${campaign.campaignManager.profilePicture}`"
+                  />
+                  {{ campaign.campaignManager.name }}
+                </div>
+              </td>
+              <td v-if="!campaign.isEditing">{{ campaign.startDate }}</td>
+              <td v-else>
+                <input
+                  type="number"
+                  v-model="campaign.newStartDate"
+                  :placeholder="campaign.startDate"
                 />
-              </div>
-            </td>
-          </tr>
-          <tr v-for="campaign in sortedCampaigns" :key="campaign.id" v-else>
-            <td>{{ campaign.name }}</td>
-
-            <td>
-              <div class="table-data">
-                <img
-                  class="client-logo"
-                  :src="`${campaign.client.clientLogo}`"
+              </td>
+              <td v-if="!campaign.isEditing">{{ campaign.endDate }}</td>
+              <td v-else>
+                <input
+                  type="number"
+                  v-model="campaign.newEndDate"
+                  :placeholder="campaign.endDate"
                 />
-                {{ campaign.client.name }}
-              </div>
-            </td>
-
-            <td>
-              <div class="table-data">
-                <img
-                  class="profile-pic"
-                  :src="`${campaign.campaignManager.profilePicture}`"
-                />
-                {{ campaign.campaignManager.name }}
-              </div>
-            </td>
-            <td v-if="!campaign.isEditing">{{ campaign.startDate }}</td>
-            <td v-else>
-              <input
-                type="number"
-                v-model="campaign.newStartDate"
-                :placeholder="campaign.startDate"
-              />
-            </td>
-            <td v-if="!campaign.isEditing">{{ campaign.endDate }}</td>
-            <td v-else>
-              <input
-                type="number"
-                v-model="campaign.newEndDate"
-                :placeholder="campaign.endDate"
-              />
-            </td>
-            <td>{{ campaign.budget }}</td>
-            <td>
-              <button class="edit-button" @click="editCampaign(campaign)">
-                <EditIcon />
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              </td>
+              <td>{{ campaign.budget }}</td>
+              <td>
+                <button class="edit-button" @click="editCampaign(campaign)">
+                  <EditIcon />
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>

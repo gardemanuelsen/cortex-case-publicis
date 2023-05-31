@@ -1,51 +1,57 @@
 <template>
-  <h1>Users</h1>
-  <div>
-    <div class="scrollable-table">
-      <table class="users-table">
-        <thead>
-          <tr>
-            <th>
-              <div class="header-container">
-                <span>Name</span>
-                <button @click="toggleSort('name')" class="sort-button">
-                  {{ sortColumn === "name" && sortDirection === 2 ? "▲" : "▼" }}
-                </button>
-              </div>
-            </th>
-            <th>
-              <div class="header-container">
-                <span>Email</span>
-                <button @click="toggleSort('name')" class="sort-button">
-                  {{ sortColumn === "name" && sortDirection === 2 ? "▲" : "▼" }}
-                </button>
-              </div>
-            </th>
-          </tr>
-        </thead>
+  <div class="container">
+    <h1>Users</h1>
+    <div>
+      <div class="scrollable-table">
+        <table class="users-table">
+          <thead>
+            <tr>
+              <th>
+                <div class="header-container">
+                  <span>Name</span>
+                  <button @click="toggleSort('name')" class="sort-button">
+                    {{
+                      sortColumn === "name" && sortDirection === 2 ? "▲" : "▼"
+                    }}
+                  </button>
+                </div>
+              </th>
+              <th>
+                <div class="header-container">
+                  <span>Email</span>
+                  <button @click="toggleSort('name')" class="sort-button">
+                    {{
+                      sortColumn === "name" && sortDirection === 2 ? "▲" : "▼"
+                    }}
+                  </button>
+                </div>
+              </th>
+            </tr>
+          </thead>
 
-        <tbody>
-          <tr v-if="isLoading">
-            <td colspan="7">
-              <div class="loader">
-                <spring-spinner
-                  :animation-duration="2000"
-                  :size="100"
-                  color="#cc943c"
-                />
-              </div>
-            </td>
-          </tr>
-          <tr v-for="user in sortedUsers" :key="user.id" v-else>
-            <td class="table-data">
-              <img class="profile-pic" :src="`${user.profilePicture}`" />{{
-                user.name
-              }}
-            </td>
-            <td>{{ user.email }}</td>
-          </tr>
-        </tbody>
-      </table>
+          <tbody>
+            <tr v-if="isLoading">
+              <td colspan="7">
+                <div class="loader">
+                  <spring-spinner
+                    :animation-duration="2000"
+                    :size="100"
+                    color="#cc943c"
+                  />
+                </div>
+              </td>
+            </tr>
+            <tr v-for="user in sortedUsers" :key="user.id" v-else>
+              <td class="table-data">
+                <img class="profile-pic" :src="`${user.profilePicture}`" />{{
+                  user.name
+                }}
+              </td>
+              <td>{{ user.email }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>

@@ -3,17 +3,17 @@
     <div class="logo-container">
       <img class="cortex-logo" src="../assets/img/cortex-logo.png" />
     </div>
-    <!-- <div class="user-info" v-if="loggedInUser">
+    <div class="user-info" v-if="loggedInUser">
       <div>
         <img class="logged-in-user-pic" :src="loggedInUser.profilePicture" />
       </div>
-      
+
       <div class="logged-in-user-text">
         <h3>{{ loggedInUser.name }}</h3>
         <p>{{ loggedInUser.email }}</p>
         <button class="logout-button" @click="logout">Logout</button>
       </div>
-    </div> -->
+    </div>
     <div>
       <ul>
         <li
@@ -53,7 +53,7 @@ const loggedInUser = ref<User | null>(null); // Add this line
 const router = useRouter();
 
 const menuItems: MenuItem[] = [
-  { id: 1, title: "Campaigns", route: "/", icon: "campaign" },
+  { id: 1, title: "Campaigns", route: "/campaigns", icon: "campaign" },
   { id: 2, title: "Clients", route: "/client", icon: "client" },
   { id: 3, title: "Users", route: "/user", icon: "user" },
 ];
@@ -157,5 +157,19 @@ li:hover {
 
 .logged-in-user-text {
   font-size: small;
+}
+
+.logout-button {
+  margin-top: 1rem;
+  background-color: #cc943c;
+  border: none;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 2px solid #000000;
+  font-weight: bold;
+  width: 80px;
+  opacity: 0.8;
 }
 </style>

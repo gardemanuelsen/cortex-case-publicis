@@ -1,69 +1,73 @@
 <template>
-  <h1>Clients</h1>
-  <div>
-    <div class="scrollable-table">
-      <table class="clients-table">
-        <thead>
-          <tr>
-            <th>
-              <div class="header-container">
-                <span>Name</span>
-                <button @click="toggleSort('name')" class="sort-button">
-                  {{ sortColumn === "name" && sortDirection === 2 ? "▲" : "▼" }}
-                </button>
-              </div>
-            </th>
-            <th>
-              <div class="header-container">
-                <span>Default Campaign Manager</span>
-                <button
-                  @click="toggleSort('defaultCampaignManager')"
-                  class="sort-button"
-                >
-                  {{
-                    sortColumn === "defaultCampaignManager" &&
-                    sortDirection === 2
-                      ? "▲"
-                      : "▼"
-                  }}
-                </button>
-              </div>
-            </th>
-          </tr>
-        </thead>
+  <div class="container">
+    <h1>Clients</h1>
+    <div>
+      <div class="scrollable-table">
+        <table class="clients-table">
+          <thead>
+            <tr>
+              <th>
+                <div class="header-container">
+                  <span>Name</span>
+                  <button @click="toggleSort('name')" class="sort-button">
+                    {{
+                      sortColumn === "name" && sortDirection === 2 ? "▲" : "▼"
+                    }}
+                  </button>
+                </div>
+              </th>
+              <th>
+                <div class="header-container">
+                  <span>Default Campaign Manager</span>
+                  <button
+                    @click="toggleSort('defaultCampaignManager')"
+                    class="sort-button"
+                  >
+                    {{
+                      sortColumn === "defaultCampaignManager" &&
+                      sortDirection === 2
+                        ? "▲"
+                        : "▼"
+                    }}
+                  </button>
+                </div>
+              </th>
+            </tr>
+          </thead>
 
-        <tbody>
-          <tr v-if="isLoading">
-            <td colspan="7">
-              <div class="loader">
-                <spring-spinner
-                  :animation-duration="2000"
-                  :size="100"
-                  color="#cc943c"
-                />
-              </div>
-            </td>
-          </tr>
-          <tr v-for="client in sortedClients" :key="client.id" v-else>
-            <td>
-              <div class="table-data">
-                <img class="client-logo" :src="`${client.clientLogo}`" />
+          <tbody>
+            <tr v-if="isLoading">
+              <td colspan="7">
+                <div class="loader">
+                  <spring-spinner
+                    :animation-duration="2000"
+                    :size="100"
+                    color="#cc943c"
+                  />
+                </div>
+              </td>
+            </tr>
+            <tr v-for="client in sortedClients" :key="client.id" v-else>
+              <td>
+                <div class="table-data">
+                  <img class="client-logo" :src="`${client.clientLogo}`" />
 
-                <span>{{ client.name }}</span>
-              </div>
-            </td>
+                  <span>{{ client.name }}</span>
+                </div>
+              </td>
 
-            <td>
-              <div class="table-data">
-                <img
-                  class="profile-pic"
-                  :src="`${client.defaultCampaignManager.profilePicture}`"
-                />{{ client.defaultCampaignManager.name }}
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              <td>
+                <div class="table-data">
+                  <img
+                    class="profile-pic"
+                    :src="`${client.defaultCampaignManager.profilePicture}`"
+                  />{{ client.defaultCampaignManager.name }}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>

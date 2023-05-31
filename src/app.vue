@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <Menu />
+    <Menu v-if="shouldRenderMenu" />
 
     <div class="content">
       <router-view></router-view>
@@ -10,17 +10,20 @@
 
 <script setup lang="ts">
 import Menu from "./components/Menu.vue";
-import { ref, onMounted } from "vue";
-import Login from "./components/Login.vue";
+import { ref, onMounted, computed } from "vue";
 import { Campaign, Client, User, ApiClient } from "./api-client";
 
 import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const campaigns = ref<Campaign[]>([]);
 const clients = ref<Client[]>([]);
 const users = ref<User[]>([]);
 
-const router = useRouter();
+const shouldRenderMenu = computed(() => {
+  return router.currentRoute.value.path !== "/";
+});
 
 onMounted(async () => {
   const apiClient = new ApiClient();
@@ -49,8 +52,10 @@ body {
 
 .content {
   flex: 1;
+}
+
+.container {
   padding: 2rem;
-  border-radius: 15px;
   margin: 4rem;
 }
 
