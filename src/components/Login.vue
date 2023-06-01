@@ -101,18 +101,13 @@ const email = ref("");
 const password = ref("");
 const apiClient = new ApiClient();
 const router = useRouter();
-const notRegistered = ref(false);
+
 const activeView = ref("login");
 
 const headingText = computed(() =>
   activeView.value === "login" ? "Hi there!🖐️" : "Register"
 );
-const switchView = (view: string): void => {
-  console.log(view);
-  if (activeView.value !== view) {
-    activeView.value = view;
-  }
-};
+
 async function handleSubmit(event: Event) {
   event.preventDefault();
   try {

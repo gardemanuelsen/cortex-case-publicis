@@ -5,7 +5,7 @@
       <div class="filtering-container">
         <div class="search-by-name-container">
           <div>
-            <label for="name-input">Search by Name</label>
+            <label for="name-input">Search by Campaign Name</label>
           </div>
           <div>
             <input
@@ -83,7 +83,7 @@
             <tr>
               <th>
                 <div class="header-container">
-                  <span>Name</span>
+                  <span>Campaign Name</span>
                   <button @click="toggleSort('name')" class="sort-button">
                     {{
                       sortColumn === "name" && sortDirection === 2 ? "▲" : "▼"
@@ -237,34 +237,7 @@ import EditIcon from "@/assets/icons/EditIcon.vue";
 const campaigns = ref<Campaign[]>([]);
 const isLoading = ref(true);
 
-interface DropdownOption {
-  label: string;
-  value: string;
-}
-
 const typeDropdownValue = ref("all");
-const isOpen = ref(false);
-
-const options: DropdownOption[] = [
-  { label: "All", value: "all" },
-  { label: "Social Media", value: "socialMedia" },
-  { label: "Search Engine", value: "searchEngine" },
-  { label: "TV", value: "tv" },
-];
-
-let selectedOption =
-  options.find((option) => option.value === typeDropdownValue.value) ||
-  options[0];
-
-const toggleDropdown = () => {
-  isOpen.value = !isOpen.value;
-};
-
-const selectOption = (option: DropdownOption) => {
-  selectedOption = option;
-  isOpen.value = false;
-  typeDropdownValue.value = option.value;
-};
 
 //Filtering dropdown
 
