@@ -46,31 +46,16 @@
           <div class="input-and-btn">
             <div>
               <h3>Name:</h3>
-              <input
-                type="email"
-                v-model="email"
-                placeholder="First name, Last name"
-                required
-              />
+              <input type="text" placeholder="First name, Last name" required />
             </div>
 
             <div>
               <h3>E-mail:</h3>
-              <input
-                type="email"
-                v-model="email"
-                placeholder="Email"
-                required
-              />
+              <input type="email" v-model="email" required />
             </div>
             <div>
               <h3>Password:</h3>
-              <input
-                type="password"
-                v-model="password"
-                placeholder="Password"
-                required
-              />
+              <input type="password" v-model="password" required />
             </div>
             <button class="login-btn">Join the community</button>
           </div>
@@ -97,8 +82,8 @@ import { ref } from "vue";
 import { User, ApiClient } from "../api-client";
 import { computed } from "vue";
 import { useRouter } from "vue-router";
-const email = ref("");
-const password = ref("");
+const email = ref("jaylah.suz@publicisgroupe.com");
+const password = ref("th3tg3ht3");
 const apiClient = new ApiClient();
 const router = useRouter();
 
